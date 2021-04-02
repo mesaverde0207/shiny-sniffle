@@ -77,6 +77,11 @@ ol {
   color: #fff;
 }
 
+#header .user {
+  float: right;
+  padding-top: 4px;
+}
+
 #content {
   padding: 30px 100px;
 }
