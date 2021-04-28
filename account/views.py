@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from .forms import LoginForm
+from .forms import LoginForm, UserRegistrationFrom
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -36,3 +36,21 @@ def user_login(request: HttpRequest):
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
+
+
+def register(request: HttpRequest):
+    if request.method == 'POST':
+        user_form = UserRegistrationFrom(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(
+                user_form.cleaned_data['password'])  # hashing
+            new_user.save()
+            return render(request,
+                          'account/register_done.html',
+                          {'new_user': new_user})
+    else:
+        user_form = UserRegistrationFrom()
+    return render(request,
+                  'account/register.html',
+                  {'user_form': user_form})
