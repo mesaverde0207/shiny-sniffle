@@ -15,4 +15,5 @@ urlpatterns = [
           name='password_change_done'),
      path('', include('django.contrib.auth.urls')),
      path('register/', account_views.register, name='register'),
+     path('edit/', account_views.edit, name='edit'),
      ]
